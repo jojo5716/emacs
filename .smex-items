@@ -1,0 +1,31 @@
+
+;; ----- smex-history -----
+(
+ indent-guide-mode
+ rgrep
+ hg-log
+ query-replace
+ xml-mode
+ goto-line
+ org-mode
+)
+
+;; ----- smex-data -----
+(
+ (jedi:install-server . 2)
+ (jedi:setup . 1)
+ (jedi:toggle-debug-server . 1)
+ (epc:pop-to-last-server-process-buffer . 1)
+ (goto-line . 2)
+ (indent-guide-mode . 8)
+ (query-replace . 7)
+ (rgrep . 2)
+ (hg-status . 1)
+ (hg-diff . 2)
+ (hg-log . 2)
+ (list-packages . 2)
+ (org-todo . 1)
+ (org-mode . 3)
+ (xml-mode . 2)
+ (indent-guide-show . 1)
+)

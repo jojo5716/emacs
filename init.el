@@ -12,11 +12,10 @@
 ;; Delete trailing spaces
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-
 ;; Extra configuration
 ; =================================================================
 ;; Creating backup files in specific directory
-(setq make-backup-files t)
+(setq make-backup-files nil)
 (setq version-control t)
 (setq backup-directory-alist (quote ((".*" . "~/.emacs_backups/"))))
 
@@ -56,6 +55,17 @@
            (propertize (format (format " %%%dd\u2506 " w) line) 'face 'linum)))
       (setq linum-format 'linum-format-func)
      (setq linum-format 'linum-format-func)))
+ (set-face-attribute 'linum nil :background "#ddd")
+
+;; Show trailing spaces
+(defun show-ws-and-linum-on-files ()
+  "Show trailing whitespace and line numbers on files only"
+  (interactive)
+  (when (not (eq buffer-file-name nil))
+    (setq show-trailing-whitespace t)
+    (linum-mode 1)))
+(add-hook 'after-change-major-mode-hook 'show-ws-and-linum-on-files)
+
 
 ;; Key binding
 ; =================================================================
@@ -96,7 +106,6 @@
 
 ; Config plugins
 ; ===============================================================
-
 ; Helm
 (global-set-key (kbd "C-x p") 'helm-locate)
 (add-to-list 'load-path "~/.emacs.d/helm/")
@@ -114,18 +123,63 @@
 ;Anaconda
 (add-hook 'python-mode-hook 'anaconda-mode)
 
-; Emmet mode
-;(require 'emmet-mode)
-;(require 'init-recentf)
+;; Indent guide
+(add-to-list 'load-path "~/.emacs.d/elpa/indent-guide-20150610.2322/")
+(require 'indent-guide)
+(indent-guide-global-mode)
+(set-face-background 'indent-guide-face "dimgray")
+
+
+;; Flycheck
+(add-to-list 'load-path "~/.emacs.d/elpa/indent-guide-20150610.2322/")
+(add-hook 'after-init-hook #'global-flycheck-mode)
 ;; Themes
 ; ===========================================================
+(add-to-list 'custom-theme-load-path "~/.emacs.d/elpa/boron-theme-20150117.952/")
+(load-theme 'boron t)
+;(load-theme 'boron-theme t)
+
+
+;; ORG Config
+; =============================================================
+(setq org-log-done t
+      org-todo-keywords '((sequence "TODO" "INPROGRESS" "DONE"))
+      org-todo-keyword-faces '(("INPROGRESS" . (:foreground "blue" :weight bold))))
+(add-hook 'org-mode-hook
+          (lambda ()
+            (flyspell-mode)))
+(add-hook 'org-mode-hook
+          (lambda ()
+            (writegood-mode)))
+
+(global-set-key (kbd "C-c C") 'org-capture)
+; ORG Agenda
+(global-set-key (kbd "C-c a") 'org-agenda)
+(setq org-agenda-show-log t
+      org-agenda-todo-ignore-scheduled t
+      org-agenda-todo-ignore-deadlines t)
+(setq org-agenda-files (list "~/org/personal.org"
+                             "~/org/roiback.org"))
+
+;; ORG Habit
+(require 'org)
+(require 'org-install)
+(require 'org-habit)
+(add-to-list 'org-modules "org-habit")
+(setq org-habit-preceding-days 7
+      org-habit-following-days 1
+      org-habit-graph-column 80
+      org-habit-show-habits-only-for-today t
+      org-habit-show-all-today t)
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-safe-themes (quote ("726dd9a188747664fbbff1cd9ab3c29a3f690a7b861f6e6a1c64462b64b306de" default))))
+ '(custom-safe-themes (quote ("c3232d379e847938857ca0408b8ccb9d0aca348ace6f36a78f0f7b4c5df0115c" "726dd9a188747664fbbff1cd9ab3c29a3f690a7b861f6e6a1c64462b64b306de" default)))
+ '(indent-guide-global-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
