@@ -14,6 +14,7 @@
 
 ;; Extra configuration
 ; =================================================================
+
 ;; Creating backup files in specific directory
 (setq make-backup-files nil)
 (setq version-control t)
@@ -66,6 +67,8 @@
     (linum-mode 1)))
 (add-hook 'after-change-major-mode-hook 'show-ws-and-linum-on-files)
 
+;; Show parentheses
+(show-paren-mode 1)
 
 ;; Key binding
 ; =================================================================
