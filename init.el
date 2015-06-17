@@ -70,6 +70,14 @@
 ;; Show parentheses
 (show-paren-mode 1)
 
+;; Move windows around
+(add-to-list 'load-path "~/.emacs.d/elpa/buffer-move-20150523.513/")
+(require 'buffer-move)
+(global-set-key (kbd "<C-s up>")     'buf-move-up)
+(global-set-key (kbd "<C-s down>")   'buf-move-down)
+(global-set-key (kbd "<C-s left>")   'buf-move-left)
+(global-set-key (kbd "<C-s right>")  'buf-move-right)
+
 ;; Key binding
 ; =================================================================
 (global-set-key (kbd "RET") 'newline-and-indent)
@@ -107,10 +115,19 @@
 
 (global-set-key [f8] 'nuke-line)
 
+
+;; New blank buffer
+(defun my/new-scratch ()
+    ; Returns the existing *scratch* buffer or creates a new one
+    (interactive)
+    (switch-to-buffer (get-buffer-create "*scratch*")))
+(global-set-key (kbd "C-x C-n") 'my/new-scratch)
+
+
 ; Config plugins
 ; ===============================================================
 ; Helm
-(global-set-key (kbd "C-x p") 'helm-locate)
+(global-set-key (kbd "C-x p") 'helm-projectile-find-file-dwim)
 (add-to-list 'load-path "~/.emacs.d/helm/")
 (require 'helm-config)
 
